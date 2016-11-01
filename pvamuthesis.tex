@@ -1,0 +1,153 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  New template code for TAMU Theses and Dissertations starting Fall 2012.  
+%  For more info about this template or the 
+%  TAMU LaTeX User's Group, see http://www.howdy.me/.
+%
+%  Author: Wendy Lynn Turner 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{report}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=1.25in,bmargin=1.25in,lmargin=1.4in,rmargin=1.15in}
+ \usepackage[doublespacing]{setspace}
+ \usepackage{tocloft}
+ \usepackage[rm, tiny,center, compact]{titlesec}
+ \usepackage{indentfirst}
+ \usepackage{etoolbox}
+\usepackage{tocvsec2}
+ \usepackage[titletoc]{appendix}
+ \usepackage{appendix}
+% \usepackage{tamuconfig}
+ \usepackage{pvamuconfig}
+\usepackage{rotating}
+
+% Added to fix issues with pdf searching in some versions of LaTeX
+%\usepackage[T1]{fontenc}\usepackage{lmodern}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{listings}
+
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}
+
+\usepackage{pbox}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{breakcites}
+\usepackage{url}
+\usepackage{tabularx}
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\usepackage{textcomp}
+
+% Hyperref setup below.  You should be able to get away with using uncommenting just the first line.
+%\usepackage[hidelinks]{hyperref}
+
+% if \usepackage[hidelinks]{hyperref} doesn't work try this.
+% \usepackage{hyperref}  % Hidelinks is an option that removes link visiability.  TAMU Thesis Offices prefers to not see the links. But often doesn't work.  
+% 
+% \hypersetup{
+%     colorlinks=true,
+%     linkcolor=black,
+%     citecolor=black,
+%     filecolor=black,
+%     urlcolor=black,
+% }
+%%%%%%%  End of hyperref setup.  One of these two options should work, but my motto with hyperref is when in doubt, comment it out!
+%%%%%%%%%  This hopefully fixes the problem with vertical spacing of section headings at the top of the page..  Commented out in 1.0.7
+% \preto\section{%
+% \ifnum\value{section}>0\addtocontents{toc}{\vskip-6pt}\fi
+% }
+% \preto\subsection{%
+% \ifnum\value{subsection}=0\addtocontents{toc}{\vskip-6pt}\fi
+% \ifnum\value{subsection}>0\addtocontents{toc}{\vskip-6pt}\fi
+% } 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% Change to PVAMU format
+\ifx true false 
+\renewcommand{\tamumanuscripttitle}{A Scalable and Distributed Seismic Data Toolkit on Big Data Analytics Platform}
+\renewcommand{\tamupapertype}{Dissertation}
+\renewcommand{\tamufullname}{Chao Chen}
+\renewcommand{\tamudegree}{Master Degree}
+\renewcommand{\tamuchairone}{Dr. Lei Huang}
+% Uncomment out the next line if you have co-chairs.  You will also need to edit the titlepage.tex file.
+%\newcommand{\tamuchairtwo}{Additional Chair Name}
+\renewcommand{\tamumemberone}{Dr. Lei Huang}
+\newcommand{\tamumembertwo}{Dr. Lin Li}
+\newcommand{\tamumemberthree}{Dr. Sherri S. Frizell}
+\renewcommand{\tamudepthead}{Dr. Yonggao Yang}
+\renewcommand{\tamugradmonth}{December}
+\renewcommand{\tamugradyear}{2016}
+\renewcommand{\tamudepartment}{Department of Computer Science}
+\fi
+
+\renewcommand{\pvamucollege}{PRAIRIE VIEW A\protect\&M UNIVERSITY\protect\\COLLEGE OF ENGINEERING\protect\\PRAIRIE VIEW, TEXAS}
+\renewcommand{\pvamumanuscripttitle}{A Scalable and Distributed Seismic Data Toolkit on Big Data Analytics Platform}
+\renewcommand{\pvamupapertype}{Thesis}
+\renewcommand{\pvamusubmitto}{Submitted to the Graduate School\\In Partial Fulfillment of the Requirements for\\The Degree of}
+\renewcommand{\pvamudegree}{MASTER OF SCIENCE}
+\renewcommand{\pvamumajor}{COMPUTER SCIENCE}
+\renewcommand{\pvamufullname}{Chao Chen}
+\renewcommand{\pvamuadvisor}{Advisor Name}
+\renewcommand{\pvamudepthead}{Department Head}
+\renewcommand{\pvamucollegedean}{College Dean Name}
+\renewcommand{\pvamugraddean}{Graduate School Dean Name}
+\renewcommand{\pvamugradmonth}{December}
+\renewcommand{\pvamugradyear}{2016}
+
+
+%\include{titlepage} % This is simply a file that formats and adds your titlepage, please do not edit this unless you have a specific need. .
+\include{pvamutitle}
+\include{abstract}
+%\include{dedication}
+\include{acknowledgements}
+%\include{nomenclature}
+
+\include{lists}  % This is simply a file that formats and adds your toc, lof, and lot, please do not edit this unless you have a specific need. .
+
+\include{introduction}
+\include{related}
+\include{implement}
+\include{experiment}
+\include{conclusion}
+
+%fix spacing in bibliography, if any...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\let\oldbibitem\bibitem
+\renewcommand{\bibitem}{\setlength{\itemsep}{0pt}\oldbibitem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{bibliography}
+%\include{appendices}
+
+
+\end{document}

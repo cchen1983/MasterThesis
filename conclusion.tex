@@ -1,0 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  New template code for TAMU Theses and Dissertations starting Fall 2012.  
+%  For more info about this template or the 
+%  TAMU LaTeX User's Group, see http://www.howdy.me/.
+%
+%  Author: Wendy Lynn Turner 
+%	 Version 1.0 
+%  Last updated 8/5/2012
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                           SECTION VI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\chapter{\uppercase{Conclusions and Future Work}}
+
+\section{Conclusions}
+
+In this paper, we focus on giving a friendly and high-efficiency solution to overcome the challenge of processing big seismic data. SAC was developed and verified with several typical applications, in which there is no prerequisite that users have parallel computing knowledge, and only the core algorithms need to be filled with the help of template provided by SAC. Such template provides friendly user interface for geophysicists without expense of performance. Some deep analysis about data partition, memory and network utilization are also given in this paper, which is a good experience for profiling any parallel program. From experiments and analysis results, SAC could handle big seismic data efficiently and easily. 
+
+\section{Future Work}
+
+Although SAC has been proved to be a good candidate for processing seismic data, there are still some other work to improve. Current templates could hand the basic applications, but for some complicate cases, more templates need to be defined. If an application has many reduce actions such as Jacobi stencil codes that could not run in pipeline in whole scope, the performance could not boost too much in parallel. It is still a challenge for defining template if worker thread need to communicate with each other, and we will follow Spark community closely to find a good solution for sharing data between workers. In the future work, we will add more templates to make them fit more applications. More high level machine learning algorithms should be added to SAC and be applied to more advance seismic models. To make SAC easy to be used by high level user and improve communication efficiency, workflow that could connect small piece of algorithms and Notebook for interactive seismic data processing are under development. Current visualization of seismic data in web interface is still in 2D mode, 3D view mode with remote rendering is already evaluated. For the performance optimization of parallel program in SAC, more deep research jobs are planned, such as adjusting GC parameters, GPU optimization and OpenSHMEM etc. In the view of applications developers, more data and computing models are need to investigate, such as streaming data, hybrid mode integrating with legacy codes etc. Fortunately, we had setup good relationship with many oil \& gas companies and related service companies through this project, and their requirements in applications will provide some right directions for our research. In summary, there is still a long way to go for solving big seismic data processing problems, but we are already on the way. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=.50]{figures/Penguins.jpg}
+%\caption{Another TAMU figure}
+%\label{fig:tamu-fig4}
+%\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
