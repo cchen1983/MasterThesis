@@ -29,7 +29,7 @@ We design the experiment to verify the performance of transposing is scalable an
 
 \paragraph{Scalability to the Number of CPU Cores}
 
-We conducted the transposing experiment on a cluster with 24 nodes, each node has 12 cores(24 cores in Hyper-threading) and 48GB available DRAM. The total CPU cores is 288(576 in Hyper-threading). Figure \ref{TestStat} shows the performance metrics of this experiment. The \emph{x} in \emph{Transpose[x]} stands for the aggregation parameter we applied on the dataset. As mentioned in previous chapter, the value of aggregation parameter \emph{x} determines the size of each data split. 
+We conducted the transposing experiment on a cluster with 24 nodes, each node has 12 cores(24 cores in Hyper-threading) and 48GB available DRAM. The total CPU cores is 288(576 in Hyper-threading). Figure \ref{TestStat} shows the performance metrics of this experiment. The \emph{x} in \emph{Transpose[x]} stands for the aggregation parameter we applied on the dataset. As mentioned in previous chapter, the value of aggregation parameter \emph{x} determines the number of planes of each partitions thus to control the size of each data split. 
 
 \begin{figure}[h]
 \centering
