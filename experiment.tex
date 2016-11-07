@@ -129,7 +129,9 @@ Within each configuration of cores, we use different combinations of dimension s
 
 Figure \ref{Stencil28} and Figure \ref{Stencil224} show the speed up of parallel codes on Spark with 28 cores and 224 cores to the sequential codes respectively. 
 From these two figures, the changes on number of \emph{J} have little impact on the performance, because it does not change the number of planes in each partition and the number of partitions. In the template implementation, two nested loops are used for feeding the input of each stencil kernel. However, the change on number of \emph{I} tells how the SDK distributes the data and the number of partitions, thus will determine how many tasks are need to finish that stage of in the job, and each task need to be assinged one thread or one core to undertake the computation.
+
 In the case that size of \emph{I} is 1, it gets the best speed up in all test cases. It seems to be abnormal that the performance decreases from 1 plane of I to 2 planes of I. Increasing I will enlarge the size of each partition as shown in Figure \ref{StencilData}, however, the amount of computations keeps constant. In this stencil computation, we iterate several times to reach the balance. 
+
 At the beginning of each loop, the data need to be repartitioned based on the overlap parameter, since the latest edge data need to be updated to each partition for next iteration. In the process of repartition, it needs to get planes at the left and right edge, sort them by key and zip with original latest results, which trigger data shuffle in Spark. The bigger the size of partitions is, the more time it takes to shuffle them. The 'Shuffle Read Blocked Time' increases drastically from 1 plane of I to 2 planes of I, which accounts for the performance decreasing. 
 Figure \ref{StencilBest} shows the best speedup with different configurations of cores, in which the scalability is obvious while increasing the number of cores.
 
