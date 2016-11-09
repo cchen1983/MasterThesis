@@ -22,21 +22,10 @@
 
 \chapter{\uppercase {Introduction}}
 
-\section{Background}
-Petroleum is a traditional industry where massive seismic data sets are acquired for exploration using land-based or marine surveys. Huge amount of seismic data has already been generated and processed for several decades in the industry, although there was no big data concept at that time. High Performance Computing (HPC) has been heavily used in the industry to process the pre-stack seismic data in order to create 3D seismic property volumes for interpretation. 
+This thesis presents the design and development work of a scalable and distributed seismic data analytics toolkit,  as well as the evaluation of the promised scalability and performance of it based on related experiments result.
 
-Currently, reflection seismology (or seismic reflection) is the most important method used in the petroleum industry to estimate the properties of the Earth's subsurface from reflected seismic waves and explore geophysics using the principles of seismology. The complete processing flow of this method involves data acquisition, data processing, data interpretation and attributes analysis \cite{seisreflectionwiki}. 
+Petroleum, the target market of this seismic data analytics toolkit, is a traditional industry where massive seismic data sets are acquired for exploration using land-based or marine surveys. Huge amount of seismic data has already been generated and processed for several decades in the industry, although there was no big data concept at that time. High Performance Computing (HPC) has been heavily used in the industry to process the pre-stack seismic data in order to create 3D seismic property volumes for interpretation. However, the performance of traditional methodologies of oil \& gas companies is limited by the resources on a single machine, as the complicated work is hard to implement in a scalable and distributable way on the traditional software architecture. To resolve this problem, we designed and implemented a scalable and distributed seismic data analytics software development toolkit on top of popular big data platform Apache Hadoop and Spark.
 
-As shown in Figure \ref{seismic_reflection}, data acquisition is performed by using seismic sources such as dynamite or air gun generate to spread out seismic waves, which are reflected back from encountered materials underground and then recorded by the receiving sensors. To get data-scientists-usable 2D/3D seismic dataset, the collected seismic wavelet needs to be pre-processed by data processing methods including deconvolution, common-midpoint (CMP) stacking and migration. After data processing, the seismic events are geometrically re-located in either space or time to the location the event occurred in subsurface and create a complete image of subsurface \cite{seisreflectionwiki}. 
-
-The goal of seismic data interpretation and  attributes analysis is to locate the potential petroleum reservoirs from processed seismic reflections map. It involves deep knowledge of seismic attributes, geophysics, and intensive collaborations between data scientists and geophysicists. This thesis focus on develop a scalable and distributed toolkit to facilitates seismic data attributes analytics.   
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{figures/seismic_reflection_principal.png}
-\caption{Reflection Seismology \cite{seisreflectionepa} \cite{seisreflectionagile}}
-\label{seismic_reflection}
-\end{figure}
 
 %A landscape figure should be shown below. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,6 +49,7 @@ The emerging challenges in petroleum domain are the burst increase of the volume
 In many data- and technology- driven industries, big data analytics platforms and cloud computing technologies have made great progress in recent years toward meeting the requirements of exploring the valuable information from fast-growing data volumes and varieties.  Hadoop and Spark are currently the most popular open source big data platforms that provide scalable solutions to store and process big data, which deliver dynamic, elastic and scalable data storage and analytics solutions to tackle the challenges in the big data era. These platforms allow data scientists to explore massive datasets and extract valuable information with scalable performance. Many technologies advances in statistics, machine learning, NoSQL database, and in-memory computing from both industry and academia continue to stimulate new innovations in the data analytics field.
 
 \subsection{Complicated Workflow}
+
 Since the seismic data processing flow involves deep knowledges of geophysics, data science and computer science, it requests intensive collaborations among the scientists and developers from many different fields. This situation has long been another bottleneck for the whole system. For an instance, most scientists are using MATLAB code to build their models, which is usually hard to translate to MPI codes. In most cases, the program needs to be reconstructed and parallelized by software engineers. For this situation, it is already a big challenge to both geoscientist and software engineers to understand each other's work, not to mention to maintenance or optimize the huge amount of legacy code in this industry.
 
 

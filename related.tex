@@ -15,11 +15,17 @@
 
 \chapter{\uppercase{Related Work}}
 
-The most famous definition of big data, comes from Gartner analyst Doug Laney, specifies the 3Vs characteristics: volume, velocity and variety \cite{demauro2016}. By which volume means the amount of data, velocity stands for the real-time speed of data in and out, and variety is the range of data types and sources. As mentioned in previous chapter,  the burst increase of volume size, high-speed real-time streaming data from sensors, and various types of structured, unstructured and semi-structured data coming from different stages of seismic data processing all together matches the 3Vs definition. It determines seismic data is costly to store, access and manage in traditional methodology. Therefore, new technology should be adopted to address these problems appropriately.
+%Traditonal Workflow
+%Data Interpretation
+%Data Visualization
+%Faults Prediction
+%Attributes Computation
+%Execution
+%HPC
+%IO Scalability
+%Ease to use
 
-\section{Researches in Petroleum Industry}
-
-Although lots of motivation exist in petroleum companies to adopt big data solutions to improve efficiency and reduce cost, only a few of them have deployed big data solutions. This situation may due to some technique barriers such as lack of technology knowledge, big data solution are not applicable in some steps of traditional workflow, and the cost and risk to convert legacy software to new platform solution etc. Moreover, there are lots of concerns of business-wise, such as the cost of infrastructure, data security issue (business or political restrictions on data accessing). 
+Although various motivations exist in petroleum companies to adopt big data solutions to improve efficiency and reduce cost, only a few of them have deployed big data solutions. This situation may due to some technique barriers such as lack of technology knowledge, big data solution are not applicable in some steps of traditional workflow, and the cost and risk to convert legacy software to new platform solution etc. Moreover, there are lots of concerns of business-wise, such as the cost of infrastructure, data security issue (business or political restrictions on data accessing). 
 
 In \cite{bigdatatooil}, it concludes the applications of big data analytics in the petroleum industry are still in experimental stage. Only a few companies have applied the Big Data techniques on their workflows, and most of these innovations are developed by oil \& gas service contracting companies such as Schlumberger and Halliburton, as well as some IT providers like IBM and Microsoft: \\
 
@@ -30,38 +36,5 @@ In \cite{bigdatatooil}, it concludes the applications of big data analytics in t
   \item PointCross Seismic Data Server and Drilling Data Server utilizing Apache Hadoop / NoSQL;
   \item University of Stavanger data acquisition performance research used Apache Hadoop.
 \end{enumerate}
-
-\section{Apache Hadoop and Spark}
-
-Since Google released its white paper series of big data processing technologies in 2004, the landscape of big data development has been changed profoundly. Many big data projects were inspired and developed based on MapReduce and Google File System framework. Hadoop and Spark is two most widely used open source big data solutions for many business and industry applications in recent years. 
-
-A year after the publication of MapReduce and Google File System framework, Doug Cutting and Mike Cafarella created an open source project Apache Hadoop, which has been utilized in lots of industries to facilitate the works with big volume, variety and velocity of structured and unstructured input datasets \cite{bigdatahistory}. Apache Hadoop consists of Hadoop Distributed File System (HDFS) and MapReduce \cite{ApacheHadoop}.  Distributed file system is fundamental to many main stream big data platforms as it is able to store data across number of storage devices of a cluster. Compare to traditional file system which holds sequential data on one device, HDFS provides far better scalability and support for parallel IO processing mode. Meanwhile, another open source big data project Apache Spark provides programmers with an application programming interface centered on a data structure called the resilient distributed dataset (RDD), a fault-tolerant collection of elements that can be operated on in parallel \cite{ApacheSpark}. Since Spark itself does not provide distributed file system, it is usually installed on top of Hadoop, by which Spark could utilize HDFS interface to handle distributed data storage and access. The most different part between Hadoop and Spark is the parallel processing interface. MapReduce writes the result back to the storage after each reduction, while Spark utilizes RDD to handle most its operations and result in memory. This leads to up to100 times performance improvement compare to Hadoop in certain circumstances \cite{ApacheSpark}. Moreover, Spark provides more advanced features such as real-time streaming processing interface and machine-learning library.
-
-However, all of these big data platforms are designed for general purpose applications and focus on distributing the data, computation and IO overloads. Most MapReduce based framework do not have, or only have limited communication mechanisms between different maps, which is important to resolve the data and logical dependence problems in many complex applications. When it comes to the field of  seismic data processing and analysis, the problem is more complicated. Since most scientists and researchers in petroleum industry do not have big data related knowledge or even computer science background, how to hide parallelism from them and let them easily deploy their works on new platform is a big challenge for all the researchers.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{Subsection}
-
-%A table example is going to follow.
-
-%\begin{table}[H]
-%\centering
-%\caption{This is a table template}
-%\begin{tabular}{|l|c|c|c|c|c|}
-%\hline
-%Product & 1 & 2 & 3 & 4 & 5\\
-%\hline
-%Price & 124.- & 136.- & 85.- & 156.- & 23.-\\
-%Guarantee [years] & 1 & 2 & - & 3 & 1\\
-%Rating & 89\% & 84\% & 51\% & & 45\%\\
-%\hline
-%\hline
-%Recommended & yes & yes & no & no & no\\
-%\hline
-%\end{tabular}
-%\label{tab:template2}
-%\end{table}
-%\subsubsection{This is a subsubsection}
 
 
