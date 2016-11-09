@@ -26,9 +26,8 @@
 % Added to fix issues with pdf searching in some versions of LaTeX
 %\usepackage[T1]{fontenc}\usepackage{lmodern}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\usepackage{float}
 \usepackage{listings}
-
 \usepackage{color}
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
@@ -54,7 +53,8 @@
 
 \usepackage{pbox}
 
-\usepackage{caption}
+%\usepackage{caption}
+\usepackage[labelsep=period]{caption}
 \usepackage{subcaption}
 \usepackage{breakcites}
 \usepackage{url}
@@ -66,6 +66,8 @@
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \usepackage{textcomp}
+\usepackage{adjustbox}
+\usepackage{blindtext}
 
 % Hyperref setup below.  You should be able to get away with using uncommenting just the first line.
 %\usepackage[hidelinks]{hyperref}
@@ -123,11 +125,12 @@
 \renewcommand{\pvamucollegedean}{College Dean Name}
 \renewcommand{\pvamugraddean}{Graduate School Dean Name}
 \renewcommand{\pvamugradmonth}{December}
-\renewcommand{\pvamugradyear}{2016}
+\renewcommand{\pvamugradyear}{2015}
 
 
 %\include{titlepage} % This is simply a file that formats and adds your titlepage, please do not edit this unless you have a specific need. .
 \include{pvamutitle}
+\include{pvamusignature}
 \include{abstract}
 %\include{dedication}
 \include{acknowledgements}
@@ -152,5 +155,6 @@
 \include{bibliography}
 %\include{appendices}
 
+\include{vita}
 
 \end{document}
