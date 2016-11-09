@@ -118,11 +118,11 @@ For the sequential codes, we just split the big 3D data file into small partitio
 For the parallel codes using DMAT, we use the overlapped template, which specify parameters both in I and J directions. 
 Different configurations of cores and numbers of planes in each partition are set to check performance and scalability. 
 The numbers of cores (28, 56, 112, 224) are used for each test case respectively to verify the scalability of parallel codes. 
-Within each configuration of cores, we use different combinations of dimension size (1, 2, 4, 8) in I and J directions. For instance, I(4) and J(2) mean that the dimension size of input subvolume 6x4, which comes from (4+2*1)x(2+2*1) in the case of overlap is 1, which is shown in Figure \ref{StencilData}
+Within each configuration of cores, we use different combinations of dimension size (1, 2, 4, 8) in I and J directions. For an instance, I(4) and J(2) mean that the dimension size of input subvolume 6x4, which comes from (4+2*1)x(2+2*1) in the case of overlap is 1, which is shown in Figure \ref{StencilData}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{figures/StencilData.pdf}\\
+\includegraphics[scale=0.7]{figures/StencilData.png}\\
 \caption{The Data Distributation and Input of Overlaop Template}
 \label{StencilData}
 \end{figure}
