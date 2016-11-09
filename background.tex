@@ -25,8 +25,8 @@ The goal of seismic data interpretation and  attributes analysis is to locate th
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{figures/seismic_reflection_principal.png}
-\caption{Reflection Seismology \cite{seisreflectionepa} \cite{seisreflectionagile}}
+\includegraphics[scale=0.9]{figures/Seissurvey.jpg}
+\caption{Reflection Seismology Survey \cite{seisaov}}
 \label{seismic_reflection}
 \end{figure}
 
@@ -52,7 +52,7 @@ The architecture of a single NameNode and multiple DataNodes in a cluster simpli
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{figures/HDFSArch.png}
+\includegraphics[scale=0.5]{figures/HDFSArch.png}
 \caption{The Architecture of Hadoop File System \cite{ApacheHadoop}}
 \label{HDFSArch}
 \end{figure}
@@ -63,13 +63,21 @@ The open source big data project Apache Spark provides programmers with an appli
 
 The most different part between Hadoop and Spark is the parallel processing interface. MapReduce writes the result back to the storage after each reduction, while Spark utilizes RDD to handle most its operations and result in memory. This leads to up to100 times performance improvement compare to Hadoop in certain circumstances \cite{ApacheSpark}. Another advantage of Spark is it provides more advanced features such as real-time streaming processing interface and machine-learning library.
 
-\subsection{Resilient Distributed Dataset}
-
 Resilient Distributed Dataset (RDD) is distributed data collection with high fault-tolerance and can be accessed and operated in parallel. A RDD can be generated in two way, transforming an existed RDD to a new RDD, or importing the data stored in file storage system. Although Spark supports data loading from both traditional and distributed file system, it is designed for performing on the latter one for the high performance and parallelism. Spark supports any data source providing the Hadoop input format, such as HDFS and HBase \cite{ApacheSpark}.
 
+There are two types of RDD operations with distinct features: RDD transformation and action. The transformation operation builds a new RDD from an existing one, such as \emph{map()} which processes the data elements by a user-defined function in parallel and output a new RDD as the result. Another type of operation is action, such as \emph{count()} , which count all the elements in RDD and return the number of these data elements. 
 
+Spark handles all transformations in lazy-execution fashion, which posts the execution to later stage instead of processing it immediately. The system will record the applied transformations of RDDs and wait until there are actions applied on these datasets, then the posted transformations will be computed and the results of the actions will be output to driver program. This design make Spark can provide high efficient work flow for many complicated applications. 
 
-\subsection{Programming Model}
+Spark will recompute and regenerate the RDD every time there is an action applied on this dataset by default. However, this system behavior can be replaced by making the RDD to persist in memory through \emph{persist} (\emph{cache}) method. It allows users to cache the data elements in memory for faster accessing. This feature distinguishes Spark from many other solutions such as MapReduce and is also the reason that Spark is one of the most efficient big data platform. Figure \ref{SparkExec} shows the execution model of a Spark application.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{figures/SparkExec.png}
+\caption{The Execution Model of Spark \cite{ApacheSpark}}
+\label{SparkExec}
+\end{figure}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

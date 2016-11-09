@@ -26,9 +26,9 @@ As mentioned in chapter 2, seismic 3D volume data is a collection of estimated p
 \label{seisdata}
 \end{figure}
 
-The public class \emph{SeismicVolume} provides an API \emph{loadFromFile()} to load seismic data from HDFS and distribute them over Spark RDD according to user?s configurations. This API generates a \emph{SeismicVolume} instance which contains a SeismicRDD with float/byte as internal binary data types. The SeismicRDD is a derived class from Spark RDD class with a variety of distributed fashions of seismic volume data. In addition, it also provides some optional parameters for advanced users who have already familiar with distributed system to specify the advanced data distribution fashions. 
+The public class \emph{SeismicVolume} provides an API \emph{loadFromFile()} to load seismic data from HDFS and distribute them over Spark RDD according to users configurations. This API generates a \emph{SeismicVolume} instance which contains a SeismicRDD with float/byte as internal binary data types. The SeismicRDD is a derived class from Spark RDD class with a variety of distributed fashions of seismic volume data. In addition, it also provides some optional parameters for advanced users who have already familiar with distributed system to specify the advanced data distribution fashions. 
 
-Figure \ref{datadist} shows the flow of distributing an seismic volume file through the Hadoop filesystem and Spark RDD. It assumes the file has already been uploaded to Hadoop file system, which is able to support the distributed IO accessing for Spark to load data in parallel. After user get the  \emph{SeismicVolume} instance of a specified file,  all Spark RDD operations can be applied to the inside SeismicRDD object. Utilizing the RDD methods provided by Spark, developer could perform various of data operations and calculations on the dataset in parallel. By default, SDK distributes the volume in inline format slice by slice, which means each partition contains one single inline slice. The distribution direction could also be configured to crossline/timeline by given parameters in other APIs, this function will be present in the following Volume Data 3D Transposing section. User could configure the slices count of each distribution to manage the data distribution grain, thus to efficiently tuning the performance of applications.
+Figure \ref{datadist} shows the flow of distributing an seismic volume file through the Hadoop filesystem and Spark RDD. It assumes the file has already been uploaded to Hadoop file system, which is able to support the distributed IO accessing for Spark to load data in parallel. After users get the  \emph{SeismicVolume} instance of a specified file,  all Spark RDD operations can be applied to the inside SeismicRDD object. Utilizing the RDD methods provided by Spark, developer could perform various of data operations and calculations on the dataset in parallel. By default, SDK distributes the volume in inline format slice by slice, which means each partition contains one single inline slice. The distribution direction could also be configured to crossline/timeline by given parameters in other APIs, this function will be present in the following Volume Data 3D Transposing section. Users could configure the slices count of each distribution to manage the data distribution grain, thus to efficiently tuning the performance of applications.
 
 \begin{figure}[h]
 \centering
@@ -37,7 +37,7 @@ Figure \ref{datadist} shows the flow of distributing an seismic volume file thro
 \label{datadist}
 \end{figure}
 
-\emph{SeismicVolume} class also provides \emph{save()} API to allow user to store the data of SeismicRDD back to the HDFS. Although this operation is not recommended since it could introduce performance issues caused by data shuffling, it is still necessary when user need to backup the runtime data or apply the runtime data to traditional sequential workflows.
+\emph{SeismicVolume} class also provides \emph{save()} API to allow users to store the data of SeismicRDD back to the HDFS. Although this operation is not recommended since it could introduce performance issues caused by data shuffling, it is still necessary when users need to backup the runtime data or apply the runtime data to traditional sequential workflows.
 
 
 \section{Volume Data Accessing}
@@ -66,7 +66,7 @@ Since Spark does not provide arbitrary data access, the APIs used IndexedRDD, a 
 
 \section{Volume Data 3D Transposing}
 
-Since the volume data could only be stored in file following one specific direction(I, J or K), developer could not access slices of the other two directions directly. In traditional solutions, if user needs data in other directions, organized as cross-line slice or time-line slice, the data fetching program must perform lots of seek operations between different file offsets to collect the data of a single cross-line or time-line slice. This tedious procedure will dramatically slow down the whole software performance. To resolve this problem and to achieve reasonable performance, SDK handles the transposing of the 3D volume data inside the \emph{SeismicVolume} APIs and caches all three directions format SeismicRDD in \emph{SeismicVolume}.
+Since the volume data could only be stored in file following one specific direction(I, J or K), developer could not access slices of the other two directions directly. In traditional solutions, if users need data in other directions, organized as cross-line slice or time-line slice, the data fetching program must perform lots of seek operations between different file offsets to collect the data of a single cross-line or time-line slice. This tedious procedure will dramatically slow down the whole software performance. To resolve this problem and to achieve reasonable performance, SDK handles the transposing of the 3D volume data inside the \emph{SeismicVolume} APIs and caches all three directions format SeismicRDD in \emph{SeismicVolume}.
 
 To explain the implementation clearly, we denote the seismic volume data as shown in Figure \ref{VolumeDim}, in which i means I slice, x means J slice and z stands for K slice. The data is stored in iSlices format by default. To resolve the transposing problem in each distribution evenly, we split the volume to I of iSlices and distribute them over SeismicRDD. Each iSlice is a 2D matrix. As shown in Figure \ref{VolumeTrans}, each iSlice matrix consists of J of iTraces which have the length of K. An iSlice matrix could be iterated iTrace by iTrace. Since in 3D spacing, each iTrace is also the trace of xSlice, for example, the iTraces(0) is the xTrace of the 0th xSlice, the iTraces(1) is the xTrace of 1st xSlice, etc. 
 
@@ -80,7 +80,7 @@ As mentioned in previous section, the default distribution of \emph{SeismicVolum
 \end{figure}
 
 
-As shown in Figure \ref{VolumeTrans}, to get a xSlice, the next step is to group all the traces with the same iTraceIndex by utilizing the \emph{groupByKey} operations of Spark RDD. As shown in Figure \ref{RDDGroup}, this API groups all the data splits sharing the same key feature to a new data partition. After grouping, the xSlices data collection is generated in the new SeismicRDD distribution map. To organize them as a xSlices volume, all we need to do is sorting them by iTraceIndex. So far, the data in requested direction has already been stored in the \emph{SeismicVolume} instance, therefore user could access and manipulate seismic data in any direction by specifying the direction parameter of related \emph{SeismicVolume} APIs.
+As shown in Figure \ref{VolumeTrans}, to get a xSlice, the next step is to group all the traces with the same iTraceIndex by utilizing the \emph{groupByKey} operations of Spark RDD. As shown in Figure \ref{RDDGroup}, this API groups all the data splits sharing the same key feature to a new data partition. After grouping, the xSlices data collection is generated in the new SeismicRDD distribution map. To organize them as a xSlices volume, all we need to do is sorting them by iTraceIndex. So far, the data in requested direction has already been stored in the \emph{SeismicVolume} instance, therefore users could access and manipulate seismic data in any direction by specifying the direction parameter of related \emph{SeismicVolume} APIs.
 
 \begin{figure}[h]
 \centering
@@ -97,13 +97,16 @@ As shown in Figure \ref{VolumeTrans}, to get a xSlice, the next step is to group
 \end{figure}
 
 
-\section{Aggregation and Overlapping}
+\section{Repartition}
 
-Users need a way to configure the data partition size and partitions number, since they need to efficiently tune the granularity of the distributed process to achieve better performance. By default, as shown in Figure \ref{DefDist}, SDK distributes the volume in one specific direction slice by slice. In this case, each slice is a single split of the whole dataset. However, it will cause performance problems for some applications if we only support one distribution. For an instance, the transposing solution as mentioned in previous section needs to do lots of data exchanges between different data splits for the \emph{group} operation to shuffle the dataset to expected arrangement. Since data shuffle in Spark RDD relies on lots of physical storage access and network transmissions in each worker node, it will become the bottleneck of the transposing performance if the number of partitions is too big. Obviously, to speedup the transposing operation, user need to reduce the number of partitions thus to reduce the data communications between worker nodes.
+Users need a way to configure the data partition size and partitions number, since they need to efficiently tune the granularity of the distributed process to achieve better performance. By default, as shown in Figure \ref{DefDist}, SDK distributes the volume in one specific direction slice by slice. In this case, each slice is a single split of the whole dataset. However, it will cause performance problems for some applications if we only support one distribution. For an instance, the transposing solution as mentioned in previous section needs to do lots of data exchanges between different data splits for the \emph{group} operation to shuffle the dataset to expected arrangement. Since data shuffle in Spark RDD relies on lots of physical storage access and network transmissions in each worker node, it will become the bottleneck of the transposing performance if the number of partitions is too big. Obviously, to speedup the transposing operation, users need to reduce the number of partitions thus to reduce the data communications between worker nodes.
 
 Developers can change the distribution layout to the aggregated and overlapped fashions as shown in Figure \ref{Aggregation} and Figure \ref{Overlap} by utilizing the \emph{SeismicVolume} API :
 
- \emph{repartition(planesPerMap:Int,overlapPlanes:Int):SeismicVolume[T]}.
+\emph{repartition(planesPerMap:Int,overlapPlanes:Int):SeismicVolume[T]}.
+
+
+\subsection{Aggregation}
 
 \begin{figure}[h]
 \centering
@@ -121,9 +124,18 @@ As shown in Figure \ref{Aggregation}, aggregated data distribution could be achi
 \label{Aggregation}
 \end{figure}
 
-This method not only lets user change the size of distributed splits, more powerfully, it allows developer to set the overlapped data areas between splits and to access the overlapped parts in each split. Practically, some applications may have strong data dependences in their logic which is very hard to parallelize the solutions. For example, the stencil computation needs lots of data communications between neighbor units in each step, which is impossible to run it in parallel with other MapReduce frameworks. 
+\subsection{Overlapping}
 
-To resolve this problem, \emph{repartition()} API generates the head and tail boundaries RDD on top of the aggregated SeismicRDD and indexing them according to the related partition numbers. Finally, the boundaries are appended to each related data split through RDD \emph{zip()} API to generate a new \emph{SeismicVolume} instance which contains overlapped SeismicRDD. 
+The \emph{repartition()} method not only lets users change the size of distributed splits, more powerfully, it allows developer to set the overlapped data areas between splits and to access the overlapped parts in each split. Practically, some applications may have strong data dependences in their logic which is very hard to parallelize the solutions. For example, the stencil computation needs lots of data communications between neighbor units in each step, which is impossible to run it in parallel with other MapReduce frameworks. 
+
+To resolve this problem, \emph{repartition()} API generates the head and tail boundaries RDD on top of the aggregated SeismicRDD and indexing them according to the related partition numbers. Finally, the boundaries are appended to each related data split through RDD \emph{zip()} API to generate a new \emph{SeismicVolume} instance which contains overlapped SeismicRDD. Figure \ref{boundaryRDD} shows the process of boundary RDD solution.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{figures/boundaryRDD.png}
+\caption{The Boundary RDD Solution of Overlapping Problem}
+\label{boundaryRDD}
+\end{figure}
 
 \begin{figure}[h]
 \centering
@@ -139,7 +151,7 @@ Therefore, this method is not only capable of tuning the performance of distribu
 
 As mentioned in Introduction chapter, one of the project objective is to provide an easy-to-use solution for geophysicists or data scientists to apply their programs on big data platform without concerning the parallelism and code reconstruction. To achieve this, \emph{SeismicVolume} provides \emph{applyMap()} API to allow developer to apply user-defined functions on any direction of the SeismicRDD in parallel. 
 
-The prototype of this API is \emph{applyMap(direction:Int, f:(T-U))}. The first parameter \emph{direction} indicates the direction that user would like to apply the function on. The other parameter \emph{f:(T-U)} is a standard spark RDD key-value pairs operation callback function, which feeds the function distributed volume data with key-value forms in parallel. The data length in each key-value function depends on the specified distribution parameters of the target \emph{SeismicVolume}.  User could apply any operation or computations on the given input data, and an output key-value pairs is required for the return value. This callback function will be executed along with the related data distribution in parallel. After execution, it will generate a new \emph{SeismicVolume} object containing the processed and distributed dataset output by user-defined function.  Figure \ref{code_apply} shows the example code for users to apply their function.
+The prototype of this API is \emph{applyMap(direction:Int, f:(T-U))}. The first parameter \emph{direction} indicates the direction that users would like to apply the function on. The other parameter \emph{f:(T-U)} is a standard spark RDD key-value pairs operation callback function, which feeds the function distributed volume data with key-value forms in parallel. The data length in each key-value function depends on the specified distribution parameters of the target \emph{SeismicVolume}.  Users could apply any operation or computations on the given input data, and an output key-value pairs is required for the return value. This callback function will be executed along with the related data distribution in parallel. After execution, it will generate a new \emph{SeismicVolume} object containing the processed and distributed dataset output by user-defined function.  Figure \ref{code_apply} shows the example code for users to apply their function.
 
 \begin{figure}[h]
 \centering
@@ -155,7 +167,7 @@ Data distribution plays an important role in parallel programs to achieve scalab
 
 These templates defines the data distributions and parallel computation so that users can simply select the right templates for their algorithms without handling the data distribution and parallelism details. Three templates currently include: Trace, Line and Sub-volume. Each template can handle one or more volumes, and will output one or more volumes. Trace template is simple, in which the input is a 2D array (dimension 1 for number of volumes and dimension 2 for 1D trace data), and output is also a 2D array. Line template defines a 3D array as input and a 3D array as output respectively (dimension 1 for number of volumes and dimension 2 for 2D slice data, line is the petroleum terminology). Sub-volume template is a powerful solution to handle data 3D data distribution with overlaps, in which both input and output are 4D array (dimension 1 for number of volumes and dimension 2 for 3D overlapped sub-volume data). The Sub-volume template outputs data without any overlapping. Users can specify parameters about how to distribute data as well as the overlapped areas. 
 
-Figure \ref{code_tmpl_line} shows an example of the Line Template and Figure \ref{code_tmpl_subv} shows the example of Sub-volume Template. Both of them are straight forward and require very few knowledge about parallel computing. The only thing user should be aware of is the distribution grain of input/output data, which is specified in the distribution parameter when user creates the template instance. As shown in Figure \ref{code_run_subv}, it demonstrates the execution of an Sub-volume Template instance, in which the distributed input sub-volume size in dimension I and J (for each parallel \emph{proc()} callback function) is set to 26 x 21(The sub-volume size in dimension K is always the complete length of iTrace/xTrace, which is the minimal unit for seismic computation), and the overlapping size is 4 in both I and J direction (Each data split extends to 30 x 25 in I x J).
+Figure \ref{code_tmpl_line} shows an example of the Line Template and Figure \ref{code_tmpl_subv} shows the example of Sub-volume Template. Both of them are straight forward and require very few knowledge about parallel computing. The only thing users should be aware of is the distribution grain of input/output data, which is specified in the distribution parameter when users create the template instance. As shown in Figure \ref{code_run_subv}, it demonstrates the execution of an Sub-volume Template instance, in which the distributed input sub-volume size in dimension I and J (for each parallel \emph{proc()} callback function) is set to 26 x 21(The sub-volume size in dimension K is always the complete length of iTrace/xTrace, which is the minimal unit for seismic computation), and the overlapping size is 4 in both I and J direction (Each data split extends to 30 x 25 in I x J).
 
 \begin{figure}[h]
 \centering
