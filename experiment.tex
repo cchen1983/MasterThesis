@@ -16,20 +16,20 @@
 
 \chapter{\uppercase{Experiments, Results and Analysis}}
 
-To verify and demonstrate the scalability that the user application could achieve through utilizing DMAT, we conducted a series of experiments, including data transposing and 3D stencil calculation, an overlapping-calculation application. 
+To verify and demonstrate the scalability that the user application could achieve through Seismic Data Analytics SDK, we conducted a series of experiments, including data transposing and 3D stencil calculation which resolves the overlapping-calculation problem. 
 
 \section{3D Volume Transposing}
 
 \subsection{Use Case}
 
 This section presents the experiments of the 3D transposing problem mentioned in previous chapter. The dataset we used for transposing (from I  to J direction) experiment is a 300GB seismic 3D volumetric data, which is 31017 x 97223 x 31 in I x J x K direction with float data type. 
-We design the experiment to verify the performance of transposing is scalable and is mainly affected by the data distribution configuration and the amount of available hardware resource(the total count of cores).
+We design the experiment to verify the performance of transposing is scalable, and mainly affected by the data distribution configuration and the amount of available hardware resource(the number of cores).
 
 \subsection{Statistics and Analysis}
 
 \paragraph{Scalability to the Number of CPU Cores}
 
-We conducted the transposing experiment on a cluster with 24 nodes, each node has 12 cores(24 cores in Hyper-threading) and 48GB available DRAM. The total CPU cores is 288(576 in Hyper-threading). Figure \ref{TestStat} shows the performance metrics of this experiment. The \emph{x} in \emph{Transpose[x]} stands for the aggregation parameter we applied on the dataset. As mentioned in previous chapter, the value of aggregation parameter \emph{x} determines the number of planes of each partitions thus to control the size of each data split. 
+We conducted the transposing experiment on a cluster with 24 nodes, each node has 12 cores(24 cores in Hyper-threading) and 48GB available DRAM. The total CPU cores is 288(576 in Hyper-threading). Figure \ref{TestStat} shows the performance metrics of this experiment. The \emph{x} in \emph{Transpose[x]} stands for the aggregation parameter we applied on the dataset. As mentioned in previous chapter, the value of aggregation parameter \emph{x} specifies the number of planes in each data partition, thus to control the size of each data partition and the number of partitions. 
 
 \begin{figure}[h]
 \centering
@@ -37,7 +37,7 @@ We conducted the transposing experiment on a cluster with 24 nodes, each node ha
 \caption{Transposing Experiment Statistics on Cluster with 288(576) cores.}\label{TestStat}
 \end{figure}
 
-From the metrics, we got two bar chart which shows the time consuming for the transposing of aggregated and non-aggregated data. It clearly demonstrates that the performance scalability on dimension of the count of CPU cores is promised, as shown in Figure \ref{PerfTestCoresNoAgg} and  Figure \ref{PerfTestCoresAgg}.  The performance difference between the transposing on aggregated and non-aggregated seismic volume data will be addressed in the following paragraph.
+From the statistics table, we generated two bar charts which show the time consuming for the transposing of aggregated and non-aggregated data. It clearly demonstrates that the performance scalability on dimension of the count of CPU cores is promised, as shown in Figure \ref{PerfTestCoresNoAgg} and  Figure \ref{PerfTestCoresAgg}. The performance difference between the transposing on aggregated and non-aggregated seismic volume data will be addressed in the following paragraphs.
 
 \begin{figure}[ht]
 \centering
@@ -54,7 +54,7 @@ From the metrics, we got two bar chart which shows the time consuming for the tr
 
 \paragraph{Scalability to the Fashion of Data Distributions}
 
-There is another important factor, the data distribution fashion, will also affect the performance of transposing. As we mentioned in previous section, the transposing program will perform some shuffle operation on volumetric RDD. Shuffle operations \cite{SparkShuffle} is Spark's mechanism for re-distributing data so that it could change the data organization across partitions. This typically involves copying data across executors and nodes, which makes the shuffle a complex and costly operation. To reduce the shuffle costs, we could aggregate the SeismicRDD data splits to reduce the number of partitions thus to decrease the amount of data need to exchange during 3D transposing on each data split. Figure \ref{PerfTestAgg} shows the performance improvement when we increasing the aggregated planes number (\emph{x} in \emph{Transpose[x]}) of each data distribution. 
+There is another important factor, the data distribution fashion, also affects the performance of transposing. As we mentioned in previous section, the transposing program will perform some shuffle operations on SeismicRDD. Shuffle operations \cite{SparkShuffle} is the mechanism for re-distributing data of a RDD so as to change the data partitions across the cluster. This process involves copying data across working nodes, which makes shuffle a complex and costly operation. To reduce the costs of shuffle operation, we aggregate the SeismicRDD data partitions to reduce the number of data splits, thus to reduce the amount of data exchanges during 3D transposing of the RDD data collection. Figure \ref{PerfTestAgg} shows the performance improvement when we increase the planes number (\emph{x} in \emph{Transpose[x]}) of each data distribution. 
 
 \begin{figure}[h]
 \centering
@@ -62,9 +62,9 @@ There is another important factor, the data distribution fashion, will also affe
 \caption{Transposing Time on Aggregated Planes(ppm: planesPerMap).}\label{PerfTestAgg}
 \end{figure}
 
-However, the curve of performance trends to flat when the aggregation increases to a higher level. That is caused by the performance trade-off when reducing the distribution partitions, which will lead to a lower cluster CPU cores utilizing rate. Therefore, to achieve a reasonable performance for transposing operation, developer needs to considerate the trade-off between distribution configurations and data shuffling. 
+However, the curve of performance trends to flat when the decreasing aggregation number reaches to a certain threshold. That is caused by the performance trade-off of reducing the distribution partitions, which leads to a lower utilizing rate of cluster CPU cores than increasing the number partitions. Therefore, to achieve a reasonable performance for transposing process, developers need to considerate the trade-off between the distribution configurations and data shuffling carefully. 
 
-Figure \ref{NMONCPU} and Figure \ref{NMONMEM} show the CPU utilization and memory usage of each node when the transposing experiment was running on the cluster. These system statistic visualization views were generated by a free software NMONVisualizer \cite{NMONVisualizer}, which is a Java GUI tool for analyzing Nmon performance files.
+Figure \ref{NMONCPU} and Figure \ref{NMONMEM} show the CPU utilization rate and memory usage of each node when the transposing experiment was running on the cluster. These system statistics diagrams were generated by a free software NMONVisualizer \cite{NMONVisualizer}, which is a Java GUI tool for analyzing NMON statistics files.
 % from both AIX and Linux. 
 %It also parses IOStat files, IBM verbose GC logs, Windows Perfmon and ESXTop CSV data and JSON data.
 
@@ -82,7 +82,7 @@ Figure \ref{NMONCPU} and Figure \ref{NMONMEM} show the CPU utilization and memor
 
 \paragraph{Cross-Verification on the Third-party Cloud Platform: XSEDE Cluster}
 
-To further verify the scalability, we also setup the same experiment on the XSEDE supercomputing cluster \cite{XSEDE}. We request 44 nodes from XSEDE cluster, which has 12 cores in each node. Figure \ref{XSEDETestStat} shows the result statistics of this experiment. As shown in Figure \ref{XSEDETest}, we conduct the experiment to test the scalability of case transposing the same volumetric data from I to J direction, aggregation is 16 planes, and the result also verified the scalability of this distributed application.
+To further verify the scalability of transposing process, we also setup the same experiments on the third-party  commercial supercomputing cluster XSEDE \cite{XSEDE}. We requested 44 nodes from XSEDE cluster with 12 cores in each node. Figure \ref{XSEDETestStat} shows the statistics result of the experiments. As shown in Figure \ref{XSEDETest}, we conduct the experiments to test the performance of transposing the same seismic dataset from I to J direction with aggregation of 16 planes per partition. The result verified the scalability of this distributed solution.
 
 \begin{figure}[h]
 \centering
@@ -101,11 +101,11 @@ To further verify the scalability, we also setup the same experiment on the XSED
 
 \subsection{Use Case}
 
-Stencil computations are most commonly used in context of scientific and engineering applications such as signal and image processing, computer simulations etc.
-Stencil itself represents an iterative kernel that updates array elements according to fixed pattens \cite{StencilWiki}. The optimization on stencil computation has been well studied in \cite{Han2011PADS},\cite{Nguyen2010Blocking} and \cite{Datta2008Stencil}. 
-However, most of these optimizations focus on single node implementation with GPU or multi-core CPUs. In \cite{YanMasterThesis}, \cite{7363985} and \cite{7396203}, the authors provide a parallel implementation with Spark RDD, which gives a scalable solution for big data that can not host on a single node. 
+Stencil computations are most commonly used in the context of scientific and engineering applications, such as the signal and image processing, computer simulations etc.
+Stencil computations itself represents an iterative kernel that updates array elements according to fixed pattens \cite{StencilWiki}. The optimization of stencil computation has been well studied in \cite{Han2011PADS},\cite{Nguyen2010Blocking} and \cite{Datta2008Stencil}. 
+However, most of these optimizations focus on single node implementation with GPU or multi-core CPUs. In \cite{YanMasterThesis}, \cite{7363985} and \cite{7396203}, the authors provide the parallel implementation with Spark RDD, which gives a scalable solution for big data that can not host on a single node. 
 %The approach simplifies the development efforts by underline complicate data distribution problem. 
-In this experiment, we use the defined parallel templates in DMAT to implement stencil computations, and test their performance as well as scalability.
+In this experiment, we use the user-defined parallel template in Seismic Data Analytics SDK to resolve stencil computations. The experiments are designed and performed to test the performance and scalability.
 
 \subsection{Statistics and Analysis}
 
@@ -115,7 +115,7 @@ JDK 1.8.0\_40, Hadoop 2.5.1 and Spark 1.6.1 are used for compiling and running a
 
 For the algorithm, we use a variant of Jacobi iteration, which uses a 3D subvolume with dimension size of 3x3x3 as input, and in the computation, each new output value at (i, j, k) is the average value of 26 surrounding samples plus itself. In the case of 3x3x3 subvolume, the overlap area is 1. 
 For the sequential codes, we just split the big 3D data file into small partition and each partition includes several 2D planes (the overlap between partition is one 2D plane), and then use 3 nested loops to compute the average value. 
-For the parallel codes using DMAT, we use the overlapped template, which specify parameters both in I and J directions. 
+For the parallel codes using SDK, we use the overlapped template, which specify parameters both in I and J directions. 
 Different configurations of cores and numbers of planes in each partition are set to check performance and scalability. 
 The numbers of cores (28, 56, 112, 224) are used for each test case respectively to verify the scalability of parallel codes. 
 Within each configuration of cores, we use different combinations of dimension size (1, 2, 4, 8) in I and J directions. For an instance, I(4) and J(2) mean that the dimension size of input subvolume 6x4, which comes from (4+2*1)x(2+2*1) in the case of overlap is 1, which is shown in Figure \ref{StencilData}.
