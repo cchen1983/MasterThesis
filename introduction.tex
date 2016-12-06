@@ -14,17 +14,17 @@
 %%                           SECTION I
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-\pagestyle{plain} % No headers, just page numbers
+\pagestyle{myheadings}
+%\pagestyle{plain}
 \pagenumbering{arabic} % Arabic numerals
 \setcounter{page}{1}
 
 
 \chapter{\uppercase {Introduction}}
-
+\let\thefootnote\relax\footnotetext{This thesis follows the style of IEEE.}
 This thesis presents the design and development work of a scalable and distributed seismic data analytics toolkit.  The evaluation of the scalability and performance of this tool is also addressed based on the results of related experiments.
 
-Petroleum, the target market of this seismic data analytics toolkit, is a traditional industry where massive seismic datasets are acquired for exploration using land-based or marine surveys. Huge amount of seismic data has already been generated and processed for several decades in the industry, although there was no big data concept at that time. High Performance Computing (HPC) has been heavily used in the industry to process the pre-stack seismic data in order to create 3D seismic property volumes for interpretation. However, the performance of traditional methodologies of oil \& gas companies is limited by the resources on a single machine, as the complicated work is hard to implement in a scalable and distributable way on the conventional software architecture. To resolve this problem, we designed and implemented a scalable and distributed seismic data analytics software development toolkit on top of the popular big data platform Apache Hadoop and Spark.
+Petroleum, the target market of this seismic data analytics toolkit, is a traditional industry where massive seismic datasets are acquired for exploration using land-based or marine surveys. Huge amount of seismic data have already been generated and processed for several decades in the industry, although there was no big data concept at that time. High Performance Computing (HPC) has been heavily used in the industry to process the pre-stack seismic data in order to create 3D seismic property volumes for interpretation. However, the performance of traditional methodologies of oil and gas companies is limited by the resources on a single machine, as the complicated work is hard to implement in a scalable and distributable way on the conventional software architecture. To resolve this problem, the researchers designed and implemented a scalable and distributed seismic data analytics software development toolkit on top of the popular big data platform Apache Hadoop and Spark.
 
 
 %A landscape figure should be shown below. 
@@ -44,9 +44,9 @@ Petroleum, the target market of this seismic data analytics toolkit, is a tradit
 
 \subsection{Big Data and Scalability}
 
-The emerging challenges in petroleum domain are the burst increase of the volume size of acquired seismic data and high-speed streaming data from the sensors in wells that need to be analyzed on time. Various types of data are adopted to build models and images of the structures and layers thousands feet below Earth's surface, as well as to analyze the status of the wells, such as the pressure and oil flow rates. As millions of wells (the United States alone) are producing oil and gas every day, the data from market, reports, the logs of monitor sensors in wells as well as the underground seismic surveys are growing daily in a bursting way\cite{bigdataofindustry}. Moreover, not only the amount of real world datasets, but also the dimensions and complexity of datasets themselves increase dramatically, such as 4D even 5D and high density seismic data. These factors together accelerated the growth of the datasets.The traditional HPC solutions are able to improve the performance of many computation-intensive models, however,  most processing models are also data-intensive which is still the bottleneck for system performance. 
+The emerging challenges in petroleum domain are the burst increase of the volume size of acquired seismic data and high-speed streaming data from the sensors in wells that need to be analyzed on time \cite{bigdatatooil}. Various types of data are adopted to build models and images of the structures and layers thousands feet below Earth's surface, as well as to analyze the status of the wells, such as the pressure and oil flow rates. As millions of wells (the United States alone) are producing oil and gas every day, the data from market, reports, the logs of monitor sensors in wells as well as the underground seismic surveys are growing daily in a bursting way \cite{bigdatatooil}. Moreover, not only the amount of real world datasets, but also the dimensions and complexity of datasets themselves increase dramatically, such as 4D even 5D and high density seismic data. These factors together accelerated the growth of the datasets.The traditional HPC solutions are able to improve the performance of many computation-intensive models, however,  most processing models are also data-intensive which is still the bottleneck for system performance. 
 
-In many data- and technology- driven industries, the big data analytics platforms and cloud computing technologies have made great progress in recent years toward meeting the requirements of exploring the valuable information from fast-growing data volumes and varieties.  Hadoop and Spark are currently two of the most popular open source big data platforms that provide scalable solutions to store and process big data, which deliver dynamic, elastic and scalable data storage and analytics solutions to tackle the challenges in the big data era. These platforms allow data scientists to explore massive datasets and extract valuable information with scalable performance. Many technologies advances in statistics, machine learning, NoSQL database, and in-memory computing from both industry and academia continue to stimulate new innovations in the data analytics field.
+In many data- and technology- driven industries, the big data analytics platforms and cloud computing technologies have made great progress in recent years toward meeting the requirements of exploring the valuable information from fast-growing data volumes and varieties.  Hadoop and Spark are currently two of the most popular open source big data platforms that provide scalable solutions to store and process big data, which deliver dynamic, elastic and scalable data storage and analytics solutions to tackle the challenges in the big data era \cite{SparkWiki}. These platforms allow data scientists to explore massive datasets and extract valuable information with scalable performance. Many technologies advances in statistics, machine learning, NoSQL database, and in-memory computing from both industry and academia continue to stimulate new innovations in the data analytics field.
 
 \subsection{Complicated Workflow}
 
@@ -59,7 +59,7 @@ Geophysicists need an ease-to-use and scalable platform that allows them to adva
 
 Although there are some big data analytics platforms available in the market, they are not widely deployed in the petroleum industry since there is a big gap between these platforms and the special needs of the industry. For example, the seismic data formats are not supported by any of these platforms, and the machine learning algorithms need to be integrated with geology and geophysics knowledge to make the datasets meaningful.
 
-The main objective of the work presented by this thesis is to develop a seismic data analytics software development kits (SDK) to enable geophysicists to easily leverage the latest big data analytics technology to improve the seismic data exploration.
+The main objective of the work presented by this thesis was to develop a seismic data analytics software development kits (SDK) to enable geophysicists to easily leverage the latest big data analytics technology to improve the seismic data exploration.
 
 
 

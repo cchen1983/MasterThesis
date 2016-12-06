@@ -23,6 +23,19 @@
  \usepackage{pvamuconfig}
 \usepackage{rotating}
 
+%\usepackage{fancyhdr}
+%\fancypagestyle{plain}{%
+%\renewcommand{\headrulewidth}{0pt}%
+%\fancyhf{}%
+%\rhead{\thepage}%
+%}
+
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\patchcmd{\chapter}% <cmd>
+  {plain}% <search>
+  {myheadings}% <replace>
+  {}{}% <success><failure>
+
 % Added to fix issues with pdf searching in some versions of LaTeX
 %\usepackage[T1]{fontenc}\usepackage{lmodern}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
